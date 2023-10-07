@@ -10,8 +10,40 @@ Things you may want to cover:
 
 * System dependencies - postgresql
 
+* Dockerization - How to use
+  1. Up the services
+    ```
+      docker-compose up -d
+    ```
+
+  2. Build the image
+    ```
+      sudo docker-compose build
+    ```
+
+  On the first moment, You need to conect into the container e run the setup:
+  1. list all the containers
+    ```
+      docker ps
+    ```
+  - find the container-id of application
+  2. Entry into the container
+    ```
+      docker exec -it [container-id] /bin/bash
+    ```
+  - into the container
+  3. run the setup
+    ```
+    rails db:setup
+    ```
+
+  Ok! Now you can teste our application
+
 * Database creation
   infos in the file - config/database.yml
+
+  Because of the docker - we need to change the host of this file to - 'postres'
+    the same name of the service of database configure into the docker-compose
 
 * API tests
 
