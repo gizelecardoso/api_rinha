@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_10_04_133019) do
+ActiveRecord::Schema[7.0].define(version: 2023_10_07_221829) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -21,6 +21,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_04_133019) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "stack", default: [], array: true
+    t.index ["apelido", "nome", "stack"], name: "index_pessoas_on_apelido_and_nome_and_stack"
     t.index ["apelido"], name: "index_pessoas_on_apelido", unique: true
   end
 
