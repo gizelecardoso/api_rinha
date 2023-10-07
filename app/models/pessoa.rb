@@ -15,8 +15,8 @@ class Pessoa < ApplicationRecord
   private
 
   def validate_stack
-    stack.each do |single|
-      errors.add(:stack, "invalid item of stack") unless single.is_a? String and single.length <= 32
-    end
+    lista = stack.map { |single| single.is_a?(String) && single.length <= 32 }
+
+    errors.add(:stack, "invalid item of stack") if lista.include?(false)
   end
 end

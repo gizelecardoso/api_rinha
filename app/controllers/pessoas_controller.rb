@@ -1,44 +1,38 @@
 class PessoasController < ApplicationController
   def index
-    pessoas = if params[:t]
-      busca_pessoas
+    result = if params[:t]
+      ::Pessoas::Filter.result(condition: params[:t])
     else
-      Pessoa.select(:apelido, :nome, :nascimento, :stack)
+      ::Pessoas::List.result
     end
 
-    render json: pessoas, status: 200
+    render json: result.people, status: 200
   end
 
   def show
-    pessoa = Pessoa.find_by(id: pessoas_params[:id])
+    result = ::Pessoas::Find.result(id: params[:id])
 
-    if pessoa.present?
-      render json: pessoa, status: 200
+    if result.success?
+      render json: result.person, status: 200
     else
       render status: 400
     end
   end
 
   def create
-    pessoa = Pessoa.new(pessoas_params)
+    result = ::Pessoas::Create.result(attributes: pessoas_params)
 
-    if pessoa.save
-      render json: pessoa, status: 201
+    if result.success?
+      render json: result.person, status: 201
     else
       render status: 422
     end
   end
 
-  def busca_pessoas
-    condition = params[:t]
-
-    Pessoa.where('nome = ? OR apelido = ? OR ? = ANY(stack)', condition, condition, condition)
-  end
-
   def contagem_pessoas
-    count = Pessoa.count
+    result = ::Pessoas::Count.result
 
-    render json: count, status: 200
+    render json: result.count, status: 200
   end
 
   def pessoas_params
